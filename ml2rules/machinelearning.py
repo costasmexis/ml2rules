@@ -125,7 +125,7 @@ class XGBModel:
             'colsample_bytree': np.linspace(0.5, 1.0, num=10),
             'gamma': np.logspace(-2, 0, num=10),
             'min_child_weight': range(1, 11),
-            'n_estimators': range(5, 501, 5),
+            'n_estimators': range(5, 100, 5),
             'random_state': [SEED]
         }
 
