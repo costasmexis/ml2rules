@@ -118,19 +118,19 @@ class XGBModel:
         """
 
         param_grid = {
-            'booster': ['gbtree', 'gblinear', 'dart'],
-            'max_depth': range(3, 11),
-            'learning_rate': np.logspace(-3, -1, num=10),
+            'booster': ['gbtree'],
+            'max_depth': range(3, 25),
+            'learning_rate': np.logspace(-3, 0, num=10),
             'subsample': np.linspace(0.5, 1.0, num=10),
             'colsample_bytree': np.linspace(0.5, 1.0, num=10),
             'gamma': np.logspace(-2, 0, num=10),
             'min_child_weight': range(1, 11),
-            'n_estimators': range(5, 100, 5),
+            'n_estimators': range(5, 200, 10),
             'random_state': [SEED]
         }
 
         randomized_search = RandomizedSearchCV(self.__estimator, param_grid, n_iter=n_iter, scoring=scoring, \
-            cv=cv, random_state=SEED, verbose=10, n_jobs=10)
+            cv=cv, random_state=SEED, verbose=10, n_jobs=-1)
         randomized_search.fit(self.X_train, self.y_train)
         self.model = randomized_search.best_estimator_
         self.model.fit(self.X_train, self.y_train)
