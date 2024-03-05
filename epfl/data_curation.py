@@ -36,8 +36,8 @@ def main():
     s = con_list[0][0][1][0][0]
     mcc = pd.DataFrame(s.reshape(200000,86))
     mcc.columns = allEnzymes
-    mcc.to_scv(SAVE_TO_PATH_MCC, index=False)
+    mcc.to_csv(SAVE_TO_PATH_MCC, index=False)
         
 if __name__ == "__main__":
     main()
-    print("Data has been successfully generated and saved to ../data/epfl_data.csv")
+    print("Data has been successfully generated and saved to ../data/")
