@@ -15,7 +15,7 @@ from sklearn.model_selection import cross_val_score
 
 SEED = 42
 
-def train_tree_classifier(X_train, y_train):
+def train_tree_classifier(X_train, y_train, n_iter=25):
     """
     Trains a decision tree classifier using the provided training data.
     We want to use a relatively simple model to extract simple rules.
@@ -23,6 +23,7 @@ def train_tree_classifier(X_train, y_train):
     Parameters:
         X_train (array-like): The input features for training.
         y_train (array-like): The target labels for training.
+        n_iter (int, optional): The number of iterations for randomized search. Defaults to 25.
         
     Returns:
         best_estimator (object): The best estimator found by the randomized search.
@@ -31,14 +32,14 @@ def train_tree_classifier(X_train, y_train):
     param_grid = {
         'criterion': ['gini', 'entropy'],
         'splitter': ['best', 'random'],
-        'max_depth': [2, 3, 4, 5],
+        'max_depth': [2, 3, 4],
         'min_samples_split': [2, 5, 10],
         'min_samples_leaf': [1, 2, 4],
         'max_features': ['sqrt', 'log2']
     }
     
     clf = DecisionTreeClassifier(random_state=SEED)
-    randomized_search = RandomizedSearchCV(clf, param_grid, n_iter=10, scoring='accuracy', cv=5, random_state=SEED)
+    randomized_search = RandomizedSearchCV(clf, param_grid, n_iter=n_iter, scoring='accuracy', cv=5, random_state=SEED)
     randomized_search.fit(X_train, y_train)
     return randomized_search.best_estimator_
 
@@ -116,7 +117,6 @@ class XGBModel:
         Returns:
             best_estimator (object): The best estimator found by RandomizedSearchCV.
         """
-
         param_grid = {
             'booster': ['gbtree'],
             'max_depth': range(3, 25),
